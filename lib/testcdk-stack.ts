@@ -1,4 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
+import { aws_lambda as lambda } from 'aws-cdk-lib';
+
 import { Construct } from 'constructs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
@@ -6,11 +8,12 @@ export class TestcdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const lambdaFunction = new lambda.DockerImageFunction(this, "TestLambdaFunction", {
+      functionName: "TestLambdaFunction",
+      code: lambda.DockerImageCode.fromImageAsset("./docker/", {
+          file: "myimage/Dockerfile",
+       } )
+    });
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'TestcdkQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
   }
 }
